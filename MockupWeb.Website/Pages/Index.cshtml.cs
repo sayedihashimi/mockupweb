@@ -26,11 +26,6 @@ namespace MockupWeb.Website.Pages
 
         public void OnGet()
         {
-            // look in the mockups folder for sub-folders and those are the mockups.
-            //var folders = Directory.GetDirectories(MockupRoot, "*", SearchOption.TopDirectoryOnly);
-            //foreach(var f in folders) {
-            //    MockupNames.Add(new DirectoryInfo(f).Name);
-            //}
             MockupFiles.Clear();
             var bmprfiles = Directory.GetFiles(MockupRoot, "*.bmpr", SearchOption.AllDirectories);
             foreach(var file in bmprfiles) {

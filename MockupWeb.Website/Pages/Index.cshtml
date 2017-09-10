@@ -4,7 +4,7 @@
 <ul>
     @foreach (var mock in Model.Mockups) {
         <li>
-            <a href="/mockup/@mock.relpathurl">@mock.relpath</a>
+            <a href="/mockup?MockupPath=@mock.relpathurl">@mock.relpath</a>
         </li>
     }
 </ul>
