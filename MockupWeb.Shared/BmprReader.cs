@@ -20,11 +20,7 @@ namespace MockupWeb.Shared
 
                     
                     while (cmdresult.Read()) {
-                        var resx = new MockupResource();
-                        resx.ID = cmdresult.GetInt32(0);
-                        resx.BranchId = cmdresult.GetInt32(1);
-                        resx.Attributes = cmdresult.GetString(2);
-                        resx.Data = cmdresult.GetString(3);
+                        var resx = new MockupResource(cmdresult.GetInt32(0), cmdresult.GetInt32(1), cmdresult.GetString(2), cmdresult.GetString(3));
 
                         resxFound.Add(resx);
                     }
