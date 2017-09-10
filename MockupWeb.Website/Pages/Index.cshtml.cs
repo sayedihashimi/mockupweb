@@ -4,14 +4,54 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System.Text.Encodings.Web;
+using System.Net;
 
 namespace MockupWeb.Website.Pages
 {
-    public class IndexModel : PageModel
+    public class IndexModel : MockupBaseModel
     {
-        public void OnGet()
-        {
+        public IndexModel(IHostingEnvironment hostingEnvironment) : base(hostingEnvironment) {
 
         }
+        public List<string> MockupNames { get; set; } = new List<string>();
+
+        public List<string> MockupFiles { get; set; } = new List<string>();
+
+        // key = relfilepath not URL Encoded
+        // value = relfilepath URL Encoded
+        public List<(string relpath, string relpathurl)> Mockups { get; set; } = new List<(string, string)>();
+
+        public void OnGet()
+        {
+            // look in the mockups folder for sub-folders and those are the mockups.
+            //var folders = Directory.GetDirectories(MockupRoot, "*", SearchOption.TopDirectoryOnly);
+            //foreach(var f in folders) {
+            //    MockupNames.Add(new DirectoryInfo(f).Name);
+            //}
+            MockupFiles.Clear();
+            var bmprfiles = Directory.GetFiles(MockupRoot, "*.bmpr", SearchOption.AllDirectories);
+            foreach(var file in bmprfiles) {
+                string relpath = GetRelativePath(file, MockupRoot);
+                Mockups.Add((relpath: relpath, relpathurl: WebUtility.UrlEncode(relpath)));
+            }
+        }
+
+        private string GetRelativePath(string filespec, string folder) {
+            Uri pathUri = new Uri(filespec);
+            // Folders must end in a slash
+            if (!folder.EndsWith(Path.DirectorySeparatorChar.ToString())) {
+                folder += Path.DirectorySeparatorChar;
+            }
+            Uri folderUri = new Uri(folder);
+            return Uri.UnescapeDataString(folderUri.MakeRelativeUri(pathUri).ToString().Replace('/', Path.DirectorySeparatorChar));
+        }
+
+        private void remove() {
+            var foo = new List<(string, string)>();
+        }
+
     }
 }
