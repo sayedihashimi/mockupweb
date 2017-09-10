@@ -1,2 +1,13 @@
 ﻿@page "{MockupPath?}"
-@model mockupModel
+@model MockupModel
+
+<ul>
+    @foreach(var mpage in Model.MockupPages){
+        <li><pre>ID: @mpage.id
+Name: @mpage.name</pre></li>
+    }
+</ul>
+
+@foreach(var imgurl in Model.ImageUrls) {
+    <img src="@imgurl" alt="@imgurl" />
+}

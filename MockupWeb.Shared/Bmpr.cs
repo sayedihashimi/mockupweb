@@ -26,6 +26,14 @@ namespace MockupWeb.Shared
 
             return result;
         }
+
+        public List<(int id, string name)> GetMockupPages() {
+            var result = new List<(int id, string name)>();
+            foreach(var resx in Resources) {
+                result.Add((id: resx.ID, name: resx.Name));
+            }
+            return result;
+        }
     }
 
     public class Mockup {
