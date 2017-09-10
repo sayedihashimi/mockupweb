@@ -7,9 +7,7 @@ namespace MockupWeb.Shared
 {
     public class Bmpr
     {
-        public Bmpr() {
-
-        }
+        public Bmpr() { }
         public Bmpr(List<MockupResource> resources) {
             Resources = resources;
         }
@@ -22,9 +20,7 @@ namespace MockupWeb.Shared
                 // loop through resources and examine the Data field
                 foreach(var resx in Resources) {
                     var resxdata = JObject.Parse(resx.Data);
-
                     var controls = resxdata["mockup"]["controls"]["control"];
-
                 }
             }
 

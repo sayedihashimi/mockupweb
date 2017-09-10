@@ -13,18 +13,21 @@ namespace MockupWeb.Shared
             Attributes = attributes;
             Data = data;
 
-            InitalizeMockup();
+            InitFromAttributes();
+            InitFromData();
         }
         public int ID { get; private set; }
         public int BranchId { get; private set; }
         public string Attributes { get; private set; }
         public string Data { get; private set; }
 
+        public string Name { get; private set; }
+        public double Order { get; private set; }
         public Mockup Mockup { get; set; }
 
         public new string ToString => $"ID:{ID} BranchId:{BranchId}";
 
-        private void InitalizeMockup() {
+        private void InitFromData() {
             if (string.IsNullOrWhiteSpace(Data)) { return; }
             var dataObject = JObject.Parse(Data);
             var mc = new Mockup();
@@ -60,9 +63,12 @@ namespace MockupWeb.Shared
             Mockup = mc;
         }
 
-        private T SafeGetValue<T>(Action action,T defaultValue) {
-            throw new NotImplementedException();
-        }
+        private void InitFromAttributes() {
+            if (string.IsNullOrWhiteSpace(Attributes)) { return; }
 
+            var attJObject = JObject.Parse(Attributes);
+            Name = attJObject["name"].Value<string>();
+            Order = attJObject["order"].Value<double>();
+        }
     }
 }
