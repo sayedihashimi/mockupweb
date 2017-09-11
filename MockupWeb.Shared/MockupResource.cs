@@ -7,7 +7,7 @@ namespace MockupWeb.Shared
 {
     public class MockupResource
     {
-        public MockupResource(int id,int branchiId, string attributes, string data) {
+        public MockupResource(string id,string branchiId, string attributes, string data) {
             ID = id;
             BranchId = branchiId;
             Attributes = attributes;
@@ -16,8 +16,8 @@ namespace MockupWeb.Shared
             InitFromAttributes();
             InitFromData();
         }
-        public int ID { get; private set; }
-        public int BranchId { get; private set; }
+        public string ID { get; private set; }
+        public string BranchId { get; private set; }
         public string Attributes { get; private set; }
         public string Data { get; private set; }
 

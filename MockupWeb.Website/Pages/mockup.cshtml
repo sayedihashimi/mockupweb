@@ -1,10 +1,13 @@
 ﻿@page "{MockupPath?}"
 @model MockupModel
-
+@{ 
+    var mockupPathUrlEncoded = System.Net.WebUtility.UrlEncode(Model.MockupPath);
+}
 <ul id="mockupPageList">
-    @foreach(var mpage in Model.MockupPages){
+    @foreach (var mpage in Model.MockupPages){
         <li>
-            <a href="/ViewMockupPage?MockupPath=@Model.MockupPath&mockupName=@mpage.name">@mpage.name</a>
+           
+            <a href="/ViewMockupPage?MockupPath=@mockupPathUrlEncoded&mockupName=@System.Net.WebUtility.UrlEncode(mpage.name)">@mpage.name</a>
         </li>
     }
 </ul>

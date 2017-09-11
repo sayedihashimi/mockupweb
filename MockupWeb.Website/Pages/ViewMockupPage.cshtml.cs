@@ -7,9 +7,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Hosting;
 using MockupWeb.Shared;
 using System.IO;
+using Newtonsoft.Json;
+using System.Net;
 
-namespace MockupWeb.Website.Pages
-{
+namespace MockupWeb.Website.Pages {
     public class ViewMockupPageModel : MockupBaseModel {
         public ViewMockupPageModel(IHostingEnvironment hostingEnvironment) : base(hostingEnvironment) {
 
@@ -27,8 +28,8 @@ namespace MockupWeb.Website.Pages
                 return res;
             }
         }
-        public List<(int id, string name)> MockupPages { get; set; } = new List<(int id, string name)>();
-
+        public List<(string id, string name)> MockupPages { get; set; } = new List<(string id, string name)>();
+        public string LinkedControlsJson { get; set; }
         public void OnGet(string mockupPath, string mockupName) {
             MockupPath = mockupPath;
 
@@ -47,6 +48,22 @@ namespace MockupWeb.Website.Pages
                          select string.Format("/mockups/{0}/{1}.png", relfolderpath, mp.name)).ToList();
 
             MockupImagePath = $"/mockups/{relfolderpath}/{mockupName}.png";
+
+            if (resx != null) {
+                var linkedControls = resx.Mockup.GetControlsWithLinks();
+
+                var bar = from ctrl in linkedControls
+                          select new {
+                              LinkId = ctrl.LinkId,
+                              MockupUrl = $"/ViewMockupPage?MockupPath={WebUtility.UrlEncode(mockupPath)}&mockupName={System.Net.WebUtility.UrlEncode(bmprfile.GetMockupNameFromId(ctrl.LinkId))}",
+                              LocationX = ctrl.LocationX,
+                              LocationY = ctrl.LocationY,
+                              MeasuredHeight = ctrl.MeasuredHeight,
+                              MeasuredWidth = ctrl.MeasuredWidth
+                          };
+                LinkedControlsJson = JsonConvert.SerializeObject(bar);
+                // /ViewMockupPage?MockupPath=@mockupPathUrlEncoded&mockupName=@System.Net.WebUtility.UrlEncode(mpage.name)
+            }
         }
     }
 }

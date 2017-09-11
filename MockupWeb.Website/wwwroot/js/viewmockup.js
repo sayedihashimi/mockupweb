@@ -1,14 +1,38 @@
 ﻿$(document).ready(function () {
 
-    //$('#mockupPageList li a').click(function () {
-    //    event.preventDefault();
-    //    alert('clicked' + $(this));
-    //});
+    var currentMousePos = { x: -1, y: -1 };
+    $(document).mousemove(function (event) {
+        currentMousePos.x = event.pageX;
+        currentMousePos.y = event.pageY;
+    });
 
 
-
-
-
-
-
+    $("#mockupImage").click(function () {
+        console.log('mouse:[' + currentMousePos.x + ',' + currentMousePos.y + ']');
+        var mockupUrl = GetMockupUrlFromClick(currentMousePos.x, currentMousePos.y);
+        if (mockupUrl != null) {
+            window.location.href = mockupUrl;
+        }
+    });
 });
+var _linkedControls = Array();
+function SetLinkedControls(linkedControls) {
+    _linkedControls = linkedControls
+}
+function GetMockupUrlFromClick(mouseX, mouseY) {
+    // see if the point is contained in any linked control
+    for (var i = 0; i < _linkedControls.length; i++) {
+        var lc = _linkedControls[i];
+
+        var minX = lc.LocationX;
+        var maxX = minX + lc.MeasuredWidth;
+
+        var minY = lc.LocationY;
+        var maxY = minY + lc.MeasuredHeight;
+
+        if (mouseX >= minX && mouseX <= maxX &&
+            mouseY >= minY && mouseY <= maxY) {
+            return lc.MockupUrl;
+        }
+    }
+}

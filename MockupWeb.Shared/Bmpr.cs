@@ -23,15 +23,21 @@ namespace MockupWeb.Shared
             return result;
         }
 
-        //public List<Control> GetControlsWithLinks() {
-        //    return (from ctrl in GetAllControls()
-        //            where !string.IsNullOrWhiteSpace(ctrl.LinkId)
-        //            select ctrl).ToList();
+        public string GetMockupNameFromId(string id) {
+            var foundMockup = (from resx in Resources
+                       where string.Compare(id, resx.ID, true) == 0
+                       select resx).FirstOrDefault();
+            
+            if(foundMockup != null) {
+                return foundMockup.Name;
+            }
+            else {
+                return null;
+            }
+        }
 
-        //}
-
-        public List<(int id, string name)> GetMockupPages() {
-            var result = new List<(int id, string name)>();
+        public List<(string id, string name)> GetMockupPages() {
+            var result = new List<(string id, string name)>();
             foreach(var resx in Resources) {
                 result.Add((id: resx.ID, name: resx.Name));
             }

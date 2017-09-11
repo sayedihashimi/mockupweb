@@ -17,7 +17,7 @@ namespace MockupWeb.Website.Pages {
 
         [BindProperty]
         public string MockupPath { get; set; }
-        public List<(int id, string name)> MockupPages { get; set; } = new List<(int id, string name)>();
+        public List<(string id, string name)> MockupPages { get; set; } = new List<(string id, string name)>();
         public List<string> ImageUrls { get; set; } = new List<string>();
         public string ImageUrlsString {
             get {

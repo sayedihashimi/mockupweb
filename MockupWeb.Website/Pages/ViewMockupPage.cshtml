@@ -1,9 +1,15 @@
 ﻿@page "{MockupPath?}"
 @model ViewMockupPageModel
 
-<img src="@Model.MockupImagePath" alt="@Model.MockupImagePath" />
+<img id="mockupImage" src="@Model.MockupImagePath" alt="@Model.MockupImagePath" />
+<span id="linkedControls" data-linkedcontrols="@(Model.LinkedControlsJson)"/>
 @section scripts{
-    <script src="~/js/mockup.js" asp-append-version="true"></script>
+
+    <script src="~/js/viewmockup.js" asp-append-version="true"></script>
+    <script>
+        SetLinkedControls(JSON.parse($('#linkedControls').attr('data-linkedcontrols')));
+    </script>
+
     <script>
         window.onload = function () {
             PreloadImages('@Model.ImageUrlsString');
