@@ -59,7 +59,9 @@ namespace MockupWeb.Website.Pages {
                               LocationX = ctrl.LocationX,
                               LocationY = ctrl.LocationY,
                               MeasuredHeight = ctrl.MeasuredHeight,
-                              MeasuredWidth = ctrl.MeasuredWidth
+                              MeasuredWidth = ctrl.MeasuredWidth,
+                              Height = ctrl.Height,
+                              Width = ctrl.Width
                           };
                 LinkedControlsJson = JsonConvert.SerializeObject(bar);
                 // /ViewMockupPage?MockupPath=@mockupPathUrlEncoded&mockupName=@System.Net.WebUtility.UrlEncode(mpage.name)
