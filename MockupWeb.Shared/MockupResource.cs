@@ -22,7 +22,7 @@ namespace MockupWeb.Shared
         public string Data { get; private set; }
 
         public string Name { get; private set; }
-        public double Order { get; private set; }
+        //public double Order { get; private set; }
         public Mockup Mockup { get; set; }
 
         public new string ToString => $"ID:{ID} BranchId:{BranchId}";
@@ -69,7 +69,7 @@ namespace MockupWeb.Shared
 
             var attJObject = JObject.Parse(Attributes);
             Name = attJObject["name"].Value<string>();
-            Order = attJObject["order"].Value<double>();
+            // Order = attJObject["order"] != null ? attJObject["order"].Value<double>() : double.MinValue;
         }
     }
 }

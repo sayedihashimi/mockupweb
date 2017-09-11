@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.Sqlite;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,42 +19,24 @@ namespace MockupWeb.Shared
                     command.CommandText = @"SELECT ID,BRANCHID,ATTRIBUTES,DATA  from RESOURCES;";
                     var cmdresult = command.ExecuteReader();
 
-                    
                     while (cmdresult.Read()) {
-                        var resx = new MockupResource(cmdresult.GetString(0), cmdresult.GetString(1), cmdresult.GetString(2), cmdresult.GetString(3));
+                        //var attrs = JObject.Parse(Attributes)
+                        string id = cmdresult.GetString(0);
+                        string branchid = cmdresult.GetString(1);
+                        string attributes = cmdresult.GetString(2);
+                        string data = cmdresult.GetString(3);
 
-                        resxFound.Add(resx);
+                        var attrObj = JObject.Parse(attributes);
+                        var kind = attrObj["kind"].Value<string>();
+                        if (string.Equals("mockup", kind, StringComparison.OrdinalIgnoreCase)) {
+                            var resx = new MockupResource(id, branchid, attributes, data);
+                            resxFound.Add(resx);
+                        }
                     }
                 }
             }
 
             return new Bmpr(resxFound);
         }
-        /*
-            string mockupfilepath = @"C:\temp\balsamiq\basic.bmpr";
-            string constring = $"DataSource={mockupfilepath}";
-            try {
-                using (var connection = new SqliteConnection(constring)) {
-                    connection.Open();
-
-                    using (var command = connection.CreateCommand()) {
-                        command.CommandText = @"SELECT ID,BRANCHID,ATTRIBUTES,DATA  from RESOURCES;";
-                        var cmdresult = command.ExecuteReader();
-
-                        var resxFound = new List<MockupResource>();                        
-                        while (cmdresult.Read()) {
-                            var resx = new MockupResource();
-                            resx.ID = cmdresult.GetInt32(0);
-                            resx.BranchId = cmdresult.GetInt32(1);
-                            resx.Attributes = cmdresult.GetString(2);
-                            resx.Data = cmdresult.GetString(3);
-
-                            resxFound.Add(resx);
-                        }
-                    }
-
-                    System.Console.WriteLine("Foobar");
-                }
-         */
     }
 }
