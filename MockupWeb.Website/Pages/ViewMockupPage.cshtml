@@ -1,13 +1,19 @@
 ﻿@page "{MockupPath?}"
 @model ViewMockupPageModel
 
-<img id="mockupImage" src="@Model.MockupImagePath" alt="@Model.MockupImagePath" />
-<span id="linkedControls" data-linkedcontrols="@(Model.LinkedControlsJson)"/>
+<img id="mockupImage" src="@Model.MockupImagePath" alt="@Model.MockupImagePath" usemap="#controlmap" />
+<map name="controlmap">
+    @foreach (var lc in Model.LinkedControls) {
+        <area class="linkedControl" shape="rect" coords="@lc.LocationX,@lc.LocationY,@lc.MaxLocationX,@lc.MaxLocationY" href="@lc.MockupUrl" alt="@lc.MockupUrl" />
+    }
+</map>
+
+<span id="linkedControls" data-linkedcontrols="@(Model.LinkedControlsJson)" />
 @section scripts{
 
     <script src="~/js/viewmockup.js" asp-append-version="true"></script>
     <script>
-        SetLinkedControls(JSON.parse($('#linkedControls').attr('data-linkedcontrols')));
+        //SetLinkedControls(JSON.parse($('#linkedControls').attr('data-linkedcontrols')));
     </script>
 
     <script>

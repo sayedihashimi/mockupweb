@@ -30,6 +30,8 @@ namespace MockupWeb.Website.Pages {
         }
         public List<(string id, string name)> MockupPages { get; set; } = new List<(string id, string name)>();
         public string LinkedControlsJson { get; set; }
+        public List<LinkedControl> LinkedControls { get; set; } = new List<LinkedControl>();
+
         public void OnGet(string mockupPath, string mockupName) {
             MockupPath = mockupPath;
 
@@ -52,20 +54,58 @@ namespace MockupWeb.Website.Pages {
             if (resx != null) {
                 var linkedControls = resx.Mockup.GetControlsWithLinks();
 
-                var bar = from ctrl in linkedControls
-                          select new {
-                              LinkId = ctrl.LinkId,
-                              MockupUrl = $"/ViewMockupPage?MockupPath={WebUtility.UrlEncode(mockupPath)}&mockupName={System.Net.WebUtility.UrlEncode(bmprfile.GetMockupNameFromId(ctrl.LinkId))}",
-                              LocationX = ctrl.LocationX,
-                              LocationY = ctrl.LocationY,
-                              MeasuredHeight = ctrl.MeasuredHeight,
-                              MeasuredWidth = ctrl.MeasuredWidth,
-                              Height = ctrl.Height,
-                              Width = ctrl.Width
-                          };
-                LinkedControlsJson = JsonConvert.SerializeObject(bar);
+                var foundlc = from ctrl in linkedControls
+                              select new LinkedControl {
+                                  LinkId = ctrl.LinkId,
+                                  MockupUrl = $"/ViewMockupPage?MockupPath={WebUtility.UrlEncode(mockupPath)}&mockupName={System.Net.WebUtility.UrlEncode(bmprfile.GetMockupNameFromId(ctrl.LinkId))}",
+                                  LocationX = ctrl.LocationX,
+                                  LocationY = ctrl.LocationY,
+                                  MeasuredHeight = ctrl.MeasuredHeight,
+                                  MeasuredWidth = ctrl.MeasuredWidth,
+                                  Height = ctrl.Height,
+                                  Width = ctrl.Width,
+                                  MaxLocationX = GetMaxX(ctrl.LocationX, ctrl.Width, ctrl.MeasuredWidth),
+                                  MaxLocationY = GetMaxY(ctrl.LocationY, ctrl.Height, ctrl.MeasuredHeight)
+                              };
+
+                LinkedControlsJson = JsonConvert.SerializeObject(foundlc);
+                LinkedControls = foundlc.ToList();
                 // /ViewMockupPage?MockupPath=@mockupPathUrlEncoded&mockupName=@System.Net.WebUtility.UrlEncode(mpage.name)
             }
         }
+        private int GetMaxX(int locationX, int width, int measuredWidth) {
+            int widthToUse = width;
+            if (widthToUse <= 0) {
+                widthToUse = measuredWidth;
+            }
+            if (widthToUse < 0) {
+                widthToUse = 0;
+            }
+
+            return locationX + widthToUse;
+        }
+        private int GetMaxY(int locationY, int height, int measuredHeight) {
+            int heightToUse = height;
+            if (heightToUse <= 0) {
+                heightToUse = measuredHeight;
+            }
+            if (heightToUse < 0) {
+                heightToUse = 0;
+            }
+
+            return locationY + heightToUse;
+        }
+    }
+    public class LinkedControl {
+        public string LinkId { get; set; }
+        public string MockupUrl { get; set; }
+        public int LocationX { get; set; }
+        public int LocationY { get; set; }
+        public int MaxLocationX { get; set; }
+        public int MaxLocationY { get; set; }
+        public int MeasuredHeight { get; set; }
+        public int MeasuredWidth { get; set; }
+        public int Height { get; set; }
+        public int Width { get; set; }
     }
 }

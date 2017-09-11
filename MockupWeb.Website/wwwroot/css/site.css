@@ -5,3 +5,20 @@ html, body{
     width:100%;
     background-color: white;
 }
+
+.linkedControl {
+    background: #fff;
+    display: block;
+    height: 475px;
+    opacity: 0;
+    position: absolute;
+    width: 320px;
+}
+
+#area2 {
+    left: 320px;
+}
+
+    #area1:hover, #area2:hover {
+        opacity: 0.2;
+    }
