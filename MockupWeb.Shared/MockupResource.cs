@@ -41,6 +41,7 @@ namespace MockupWeb.Shared
             foreach(var ctrl in controlsJObject) {
                 var control = new Control();
                 control.ID = ctrl["ID"].Value<int>();
+                control.CtrlType = ctrl["typeID"] != null ? ctrl["typeID"].Value<string>() : null;
                 control.Height = ctrl["h"] != null ? ctrl["h"].Value<int>() : -1;
                 control.Width = ctrl["w"] != null ? ctrl["w"].Value<int>() : -1;
                 control.MeasuredHeight = ctrl["measuredH"] != null ? ctrl["measuredH"].Value<int>() : -1;

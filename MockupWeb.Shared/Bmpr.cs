@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace MockupWeb.Shared
 {
@@ -13,19 +14,21 @@ namespace MockupWeb.Shared
         }
         public List<MockupResource> Resources { get; set; } = new List<MockupResource>();
 
-        public List<Control> GetControlsWithLinks() {
+        public List<Control> GetAllControls() {
             var result = new List<Control>();
-
-            if(Resources != null && Resources.Count > 0) {
-                // loop through resources and examine the Data field
-                foreach(var resx in Resources) {
-                    var resxdata = JObject.Parse(resx.Data);
-                    var controls = resxdata["mockup"]["controls"]["control"];
-                }
+            foreach(var resx in Resources) {
+                result.AddRange(resx.Mockup.Controls);
             }
 
             return result;
         }
+
+        //public List<Control> GetControlsWithLinks() {
+        //    return (from ctrl in GetAllControls()
+        //            where !string.IsNullOrWhiteSpace(ctrl.LinkId)
+        //            select ctrl).ToList();
+
+        //}
 
         public List<(int id, string name)> GetMockupPages() {
             var result = new List<(int id, string name)>();
@@ -42,10 +45,17 @@ namespace MockupWeb.Shared
         public int MockupHeight { get; set; } = -1;
         public int MockupWidth { get; set; } = -1;
         public List<Control> Controls{get;set;} = new List<Control>();
+
+        public List<Control> GetControlsWithLinks() {
+            return (from ctrl in Controls
+                    where !string.IsNullOrWhiteSpace(ctrl.LinkId)
+                    select ctrl).ToList();
+        }
     }
    
     public class Control {
         public int ID { get; set; }
+        public string CtrlType { get; set; }
         public int MeasuredHeight { get; set; }
         public int MeasuredWidth { get; set; }
         public int Height { get; set; }

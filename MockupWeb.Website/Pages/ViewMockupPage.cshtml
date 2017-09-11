@@ -1,0 +1,12 @@
+﻿@page "{MockupPath?}"
+@model ViewMockupPageModel
+
+<img src="@Model.MockupImagePath" alt="@Model.MockupImagePath" />
+@section scripts{
+    <script src="~/js/mockup.js" asp-append-version="true"></script>
+    <script>
+        window.onload = function () {
+            PreloadImages('@Model.ImageUrlsString');
+        };
+    </script>
+}

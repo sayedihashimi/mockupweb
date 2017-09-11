@@ -12,7 +12,7 @@ namespace MockupWeb.Cli
             string mockupfilepath = @"C:\temp\balsamiq\basic.bmpr";
             var bmprfile = new BmprReader().ReadFromFile(mockupfilepath);
 
-            var ctrlsWithLinks = bmprfile.GetControlsWithLinks();
+            //var ctrlsWithLinks = bmprfile.GetControlsWithLinks();
 
             System.Console.WriteLine("foo");
 

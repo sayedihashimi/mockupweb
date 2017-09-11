@@ -1,13 +1,17 @@
 ﻿@page "{MockupPath?}"
 @model MockupModel
 
-<ul>
+<ul id="mockupPageList">
     @foreach(var mpage in Model.MockupPages){
-        <li><pre>ID: @mpage.id
-Name: @mpage.name</pre></li>
+        <li>
+            <a href="/ViewMockupPage?MockupPath=@Model.MockupPath&mockupName=@mpage.name">@mpage.name</a>
+        </li>
     }
 </ul>
 
-@foreach(var imgurl in Model.ImageUrls) {
-    <img src="@imgurl" alt="@imgurl" />
-}
+<script>
+    window.onload = function () {
+        PreloadImages('@Model.ImageUrlsString');
+    };
+</script>
+

@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockupWeb.Shared", "MockupWeb.Shared\MockupWeb.Shared.csproj", "{A66D8F0A-B298-4964-9B42-5125DC1F48FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockupWeb.Shared", "MockupWeb.Shared\MockupWeb.Shared.csproj", "{A66D8F0A-B298-4964-9B42-5125DC1F48FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockupWeb.Cli", "MockupWeb.Cli\MockupWeb.Cli.csproj", "{0014F139-E086-41AD-9FA9-BC1B72BCB0EB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockupWeb.Cli", "MockupWeb.Cli\MockupWeb.Cli.csproj", "{0014F139-E086-41AD-9FA9-BC1B72BCB0EB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockupWeb.Website", "MockupWeb.Website\MockupWeb.Website.csproj", "{FCF1D39E-CFA8-4466-8F17-9CBA328E758C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MockupWeb.Website", "MockupWeb.Website\MockupWeb.Website.csproj", "{FCF1D39E-CFA8-4466-8F17-9CBA328E758C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
