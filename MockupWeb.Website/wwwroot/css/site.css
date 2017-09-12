@@ -1,24 +1,14 @@
-html, body{
-    margin:0;
-    padding:0;
-    height:100%;
-    width:100%;
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
     background-color: white;
+    overflow: hidden;
+    overflow-y: hidden;
 }
-
-.linkedControl {
-    background: #fff;
-    display: block;
-    height: 475px;
-    opacity: 0;
-    position: absolute;
-    width: 320px;
+#mockupImage {
+    /*width: 100%;*/
+    overflow: hidden;
+    overflow-y: hidden;
 }
-
-#area2 {
-    left: 320px;
-}
-
-    #area1:hover, #area2:hover {
-        opacity: 0.2;
-    }
