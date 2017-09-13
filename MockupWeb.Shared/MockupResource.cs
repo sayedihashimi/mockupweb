@@ -22,6 +22,7 @@ namespace MockupWeb.Shared
         public string Data { get; private set; }
 
         public string Name { get; private set; }
+        public bool Trashed { get; private set; }
         //public double Order { get; private set; }
         public Mockup Mockup { get; set; }
 
@@ -35,32 +36,36 @@ namespace MockupWeb.Shared
             mc.MeasuredWidth = dataObject["mockup"]["measuredW"].Value<int>();
             mc.MockupHeight = dataObject["mockup"]["mockupH"].Value<int>();
             mc.MockupWidth = dataObject["mockup"]["mockupW"].Value<int>();
-            
-            var controlsJObject = dataObject["mockup"]["controls"]["control"];
 
-            foreach(var ctrl in controlsJObject) {
-                var control = new Control();
-                control.ID = ctrl["ID"].Value<int>();
-                control.CtrlType = ctrl["typeID"] != null ? ctrl["typeID"].Value<string>() : null;
-                control.Height = ctrl["h"] != null ? ctrl["h"].Value<int>() : -1;
-                control.Width = ctrl["w"] != null ? ctrl["w"].Value<int>() : -1;
-                control.MeasuredHeight = ctrl["measuredH"] != null ? ctrl["measuredH"].Value<int>() : -1;
-                control.MeasuredWidth = ctrl["measuredW"] != null ? ctrl["measuredW"].Value<int>() : -1;
-                control.LocationX = ctrl["x"] != null ? ctrl["x"].Value<int>() : -1;
-                control.LocationY = ctrl["y"] != null ? ctrl["y"].Value<int>() : -1;
-                control.Zorder = ctrl["zOrder"] != null ? ctrl["zOrder"].Value<int>() : -1;
+            if (dataObject["mockup"]["controls"] != null && dataObject["mockup"]["controls"]["control"] != null)
+            {
+                var controlsJObject = dataObject["mockup"]["controls"]["control"];
 
-                // see if there it has a link
-                if(ctrl["properties"] != null
-                    && ctrl["properties"]["href"] != null
-                    && ctrl["properties"]["href"]["ID"] != null
-                    ) {
-                    control.LinkId = ctrl["properties"]["href"]["ID"].Value<string>();
+                foreach (var ctrl in controlsJObject)
+                {
+                    var control = new Control();
+                    control.ID = ctrl["ID"].Value<int>();
+                    control.CtrlType = ctrl["typeID"] != null ? ctrl["typeID"].Value<string>() : null;
+                    control.Height = ctrl["h"] != null ? ctrl["h"].Value<int>() : -1;
+                    control.Width = ctrl["w"] != null ? ctrl["w"].Value<int>() : -1;
+                    control.MeasuredHeight = ctrl["measuredH"] != null ? ctrl["measuredH"].Value<int>() : -1;
+                    control.MeasuredWidth = ctrl["measuredW"] != null ? ctrl["measuredW"].Value<int>() : -1;
+                    control.LocationX = ctrl["x"] != null ? ctrl["x"].Value<int>() : -1;
+                    control.LocationY = ctrl["y"] != null ? ctrl["y"].Value<int>() : -1;
+                    control.Zorder = ctrl["zOrder"] != null ? ctrl["zOrder"].Value<int>() : -1;
+
+                    // see if there it has a link
+                    if (ctrl["properties"] != null
+                        && ctrl["properties"]["href"] != null
+                        && ctrl["properties"]["href"]["ID"] != null
+                        )
+                    {
+                        control.LinkId = ctrl["properties"]["href"]["ID"].Value<string>();
+                    }
+
+                    mc.Controls.Add(control);
                 }
-
-                mc.Controls.Add(control);
             }
-
             Mockup = mc;
         }
 
@@ -69,6 +74,7 @@ namespace MockupWeb.Shared
 
             var attJObject = JObject.Parse(Attributes);
             Name = attJObject["name"].Value<string>();
+            Trashed = attJObject["trashed"] != null ? attJObject["trashed"].Value<bool>() : false;
             // Order = attJObject["order"] != null ? attJObject["order"].Value<double>() : double.MinValue;
         }
     }

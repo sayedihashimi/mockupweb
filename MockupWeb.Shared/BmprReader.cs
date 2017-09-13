@@ -5,8 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace MockupWeb.Shared
-{
+namespace MockupWeb.Shared {
     public class BmprReader {
         public Bmpr ReadFromFile(string filepath) {
             if (!File.Exists(filepath)) { throw new FileNotFoundException($"Mockup not found at {filepath}"); }
@@ -30,7 +29,9 @@ namespace MockupWeb.Shared
                         var kind = attrObj["kind"].Value<string>();
                         if (string.Equals("mockup", kind, StringComparison.OrdinalIgnoreCase)) {
                             var resx = new MockupResource(id, branchid, attributes, data);
-                            resxFound.Add(resx);
+                            if (!resx.Trashed) {
+                                resxFound.Add(resx);
+                            }
                         }
                     }
                 }
