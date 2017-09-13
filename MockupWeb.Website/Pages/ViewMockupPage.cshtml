@@ -10,12 +10,14 @@
 
 <span id="linkedControls" data-linkedcontrols="@(Model.LinkedControlsJson)" />
 @section scripts{
-
+    <script src="~/js/imageMapResizer.min.js" asp-append-version="true"></script>
     <script src="~/js/viewmockup.js" asp-append-version="true"></script>
     <script>
         //SetLinkedControls(JSON.parse($('#linkedControls').attr('data-linkedcontrols')));
     </script>
+    <script>
 
+    </script>
     <script>
         window.onload = function () {
             PreloadImages('@Model.ImageUrlsString');

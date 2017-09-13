@@ -6,6 +6,10 @@
         currentMousePos.y = event.pageY;
     });
 
+    $(document).ready(function () {
+        $('map').imageMapResize();
+        console.log('called imageMapResize');
+    });
 
     $("#mockupImage").click(function () {
         console.log('mouse:[x:' + currentMousePos.x + ',y:' + currentMousePos.y + ']');
