@@ -1,6 +1,18 @@
 ﻿@page
 @model UploadMockupModel
 
+<p>
+    Mockupname below determines the folder where these files will be stored. It's also in the URL so make sure you have it set correctly.
+    You should include your .bmpr file and all exported .png files.
+    To update these files later just re-upload modified files and make sure to use the same value for `mockupname` here.
+    <br/><br/>
+    Two notes on how to author your balsamiq mockup to get this to work.
+    <ul>
+        <li>Make sure that all linked elements are directly on the mockup (i.e. not inside of a Symbol)</li>
+        <li>Each page in the .bmpr file needs to start at the Top-Left. In each page do a `CTRL+A` and drag to the Top Left as far as possible.</li>
+    </ul>
+    <br/>
+</p>
 <form method="post" enctype="multipart/form-data">
     <label for="mockupName">Project name:</label>
     <input name="mockupName" type="text" value="mockupname" />
