@@ -27,7 +27,7 @@ namespace MockupWeb.Website.Pages
         public void OnGet()
         {
             MockupFiles.Clear();
-            var bmprfiles = Directory.GetFiles(MockupRoot, "*.bmpr", SearchOption.AllDirectories);
+            var bmprfiles = Directory.GetFiles(MockupRoot, "*.bmpr.json", SearchOption.AllDirectories);
             foreach(var file in bmprfiles) {
                 string relpath = GetRelativePath(file, MockupRoot);
                 Mockups.Add((relpath: relpath, relpathurl: WebUtility.UrlEncode(relpath)));

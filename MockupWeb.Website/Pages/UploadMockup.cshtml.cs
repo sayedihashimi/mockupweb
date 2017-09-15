@@ -55,10 +55,14 @@ namespace MockupWeb.Website.Pages {
             foreach (var file in addedFiles) {
                 var fi = new FileInfo(file);
                 if (fi.Extension.Equals(".bmpr", StringComparison.OrdinalIgnoreCase)) {
-                    var filename = $"{fi.Name}.json";
+                    // copy to a temp file and then load from there sqlite dbs take time to release the file handle
+                    string tempBmprFilepath = Path.Combine(System.IO.Path.GetTempPath(), $"{System.IO.Path.GetRandomFileName()}.mockupweb.bmpr");
+                    System.IO.File.Copy(file, tempBmprFilepath);
+
+                    var jsonFilename = $"{fi.Name}.json";
                     System.IO.File.WriteAllText(
-                        Path.Combine(targetDir, filename),
-                        reader.ReadFromFile(file).GetJson());
+                        Path.Combine(targetDir, jsonFilename),
+                        reader.ReadFromFile(tempBmprFilepath).GetJson());
                 }
             }
 
@@ -66,10 +70,6 @@ namespace MockupWeb.Website.Pages {
 
 
             return Redirect(@"/");
-            // return Redirect(@"/ViewMockupPage?MockupPath=@mockupPathUrlEncoded&mockupName=@System.Net.WebUtility.UrlEncode(mpage.name)");
-            
-
-            var foo = "bar";
         }
     }
 }
