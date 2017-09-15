@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace MockupWeb.Shared
 {
@@ -42,6 +43,13 @@ namespace MockupWeb.Shared
                 result.Add((id: resx.ID, name: resx.Name));
             }
             return result;
+        }
+
+        public string GetJson() {
+            return JsonConvert.SerializeObject(this);
+        }
+        public static Bmpr GetFromJson(string json) {
+            return JsonConvert.DeserializeObject<Bmpr>(json);
         }
     }
 

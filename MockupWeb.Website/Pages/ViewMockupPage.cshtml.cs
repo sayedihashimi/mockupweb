@@ -33,10 +33,17 @@ namespace MockupWeb.Website.Pages {
         public List<LinkedControl> LinkedControls { get; set; } = new List<LinkedControl>();
 
         public void OnGet(string mockupPath, string mockupName) {
-            MockupPath = mockupPath;
+            if (string.IsNullOrEmpty(mockupPath)) { throw new ArgumentNullException(nameof(mockupPath)); }
 
+            if (!mockupPath.EndsWith(".json", StringComparison.OrdinalIgnoreCase)) {
+                mockupPath += ".json";
+            }
+
+            MockupPath = mockupPath;
             string filepath = GetLocalMockupFilepath(mockupPath);
-            var bmprfile = new BmprReader().ReadFromFile(filepath);
+            string json = System.IO.File.ReadAllText(filepath);
+            Bmpr bmprfile = Bmpr.GetFromJson(json);
+
             MockupPages = bmprfile.GetMockupPages();
 
             // find the resource to get the name of the file

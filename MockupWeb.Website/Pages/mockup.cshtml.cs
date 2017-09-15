@@ -28,7 +28,8 @@ namespace MockupWeb.Website.Pages {
                 return res;
             }
         }
-        public void OnGet(string mockupPath) {
+
+        public void OnGetOld(string mockupPath) {
             MockupPath = mockupPath;
 
             string filepath = GetLocalMockupFilepath(mockupPath);
@@ -39,9 +40,26 @@ namespace MockupWeb.Website.Pages {
 
             ImageUrls = (from mp in MockupPages
                        select string.Format("/mockups/{0}/{1}.png", relfolderpath, mp.name)).ToList();
-            
-            string foo = "bar";
-            
+        }
+        
+        public void OnGet(string mockupPath) {
+            if (string.IsNullOrEmpty(mockupPath)) { throw new ArgumentNullException(nameof(mockupPath)); }
+
+            if (!mockupPath.EndsWith(".json", StringComparison.OrdinalIgnoreCase)) {
+                mockupPath += ".json";
+            }
+
+            MockupPath = mockupPath;
+            string filepath = GetLocalMockupFilepath(mockupPath);
+            string json = System.IO.File.ReadAllText(filepath);
+            Bmpr bmprfile = Bmpr.GetFromJson(json);
+
+            MockupPages = bmprfile.GetMockupPages();
+
+            string relfolderpath = mockupPath.Substring(0, mockupPath.Length - (Path.GetFileName(mockupPath).Length)).TrimEnd('/').TrimEnd('\\');
+
+            ImageUrls = (from mp in MockupPages
+                         select string.Format("/mockups/{0}/{1}.png", relfolderpath, mp.name)).ToList();
         }
     }
 }

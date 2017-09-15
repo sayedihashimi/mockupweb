@@ -6,7 +6,6 @@
 <ul id="mockupPageList">
     @foreach (var mpage in Model.MockupPages){
         <li>
-           
             <a href="/ViewMockupPage?MockupPath=@mockupPathUrlEncoded&mockupName=@System.Net.WebUtility.UrlEncode(mpage.name)">@mpage.name</a>
         </li>
     }

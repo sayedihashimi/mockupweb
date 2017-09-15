@@ -35,6 +35,8 @@ namespace MockupWeb.Shared {
                         }
                     }
                 }
+
+                connection.Close();
             }
 
             return new Bmpr(resxFound);
