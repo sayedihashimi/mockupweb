@@ -7,8 +7,14 @@ html, body {
     overflow: hidden;
     overflow-y: hidden;
 }
-#mockupImage {
+.mockupImageFullWidth {
     width: 100%;
+}
+#mockupImage {
     overflow: hidden;
     overflow-y: hidden;
+    
+}
+.mockupImageNaturalWidth{
+    width:inherit;
 }

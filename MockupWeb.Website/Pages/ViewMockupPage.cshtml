@@ -1,7 +1,7 @@
 ﻿@page "{MockupPath?}"
 @model ViewMockupPageModel
 
-<img id="mockupImage" src="@Model.MockupImagePath" alt="@Model.MockupImagePath" usemap="#controlmap" />
+<img id="mockupImage" class="mockupImageFullWidth" src="@Model.MockupImagePath" alt="@Model.MockupImagePath" usemap="#controlmap" />
 <map name="controlmap">
     @foreach (var lc in Model.LinkedControls) {
         <area class="linkedControl" shape="rect" coords="@lc.LocationX,@lc.LocationY,@lc.MaxLocationX,@lc.MaxLocationY" href="@lc.MockupUrl" alt="@lc.MockupUrl" />

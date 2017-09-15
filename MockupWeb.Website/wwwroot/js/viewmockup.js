@@ -6,10 +6,9 @@
         currentMousePos.y = event.pageY;
     });
 
-    $(document).ready(function () {
-        $('map').imageMapResize();
-        console.log('called imageMapResize');
-    });
+    CorrectImageStyleForWidth();
+    $('map').imageMapResize();
+    console.log('called imageMapResize');
 
     $("#mockupImage").click(function () {
         console.log('mouse:[x:' + currentMousePos.x + ',y:' + currentMousePos.y + ']');
@@ -22,6 +21,13 @@
 var _linkedControls = Array();
 function SetLinkedControls(linkedControls) {
     _linkedControls = linkedControls
+}
+function CorrectImageStyleForWidth() {
+    // if the image is larger than it's rendered make set width to not use 100%
+    var mimg = document.getElementById('mockupImage');
+    if (mimg.clientWidth > mimg.naturalWidth) {
+        $("#mockupImage").removeClass('mockupImageFullWidth');
+    }
 }
 function GetMockupUrlFromClick(mouseX, mouseY) {
     // see if the point is contained in any linked control
