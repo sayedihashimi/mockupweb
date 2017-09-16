@@ -11,4 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MockupWeb.Shared\MockupWeb.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="api\" />
+  </ItemGroup>
 </Project>

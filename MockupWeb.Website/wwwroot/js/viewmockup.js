@@ -10,6 +10,9 @@
     $('map').imageMapResize();
     console.log('called imageMapResize');
 
+    //$("#controlmap area")[0].onclick = null;
+    //$("#controlmap area").click(OnAreaClick);
+
     $("#mockupImage").click(function () {
         console.log('mouse:[x:' + currentMousePos.x + ',y:' + currentMousePos.y + ']');
         var mockupUrl = GetMockupUrlFromClick(currentMousePos.x, currentMousePos.y);
@@ -45,4 +48,30 @@ function GetMockupUrlFromClick(mouseX, mouseY) {
             return lc.MockupUrl;
         }
     }
+}
+function OnAreaClick() {
+    event.preventDefault();
+    var newImgUrl = GetImageUrlFromViewMockupUrl(this.href);
+    $('#mockupImage')[0].src = newImgUrl;
+}
+function GetImageUrlFromViewMockupUrl(vmUrl) {
+    // http://localhost:63108/ViewMockupPage?MockupPath=mockupname%5Cpublish.2017.09.12-pub-spec.bmpr.json&mockupName=publish-tab-publishing
+    // http://localhost:63108/mockups/mockupname/publish-tab-publishing.png
+    
+    var mockupNameRegEx = /&mockupName=(.*)/g;
+    var reResult = mockupNameRegEx.exec(vmUrl.replace(window.location.origin, ''));
+
+    var mockupFolderPattern = /MockupPath=(.*)%5C/g;
+    var folderResult = mockupFolderPattern.exec(vmUrl);
+
+    var imgUrl = '';
+    if (reResult != null &&
+        reResult.length >= 2 &&
+        folderResult != null &&
+        folderResult.length >= 2) {
+
+        imgUrl = decodeURI(window.location.origin + '/mockups/' + folderResult[1] + '/' + reResult[1] + '.png');
+    }
+    
+    return imgUrl;
 }
