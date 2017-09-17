@@ -5,13 +5,14 @@
         currentMousePos.x = event.pageX;
         currentMousePos.y = event.pageY;
     });
-
+    $(window).resize(function () {
+        CorrectImageStyleForWidth();
+    });
     CorrectImageStyleForWidth();
     $('map').imageMapResize();
-    console.log('called imageMapResize');
 
-    //$("#controlmap area")[0].onclick = null;
-    //$("#controlmap area").click(OnAreaClick);
+    $("#controlmap area")[0].onclick = null;
+    $("#controlmap area").click(OnAreaClick);
 
     $("#mockupImage").click(function () {
         console.log('mouse:[x:' + currentMousePos.x + ',y:' + currentMousePos.y + ']');
@@ -30,6 +31,11 @@ function CorrectImageStyleForWidth() {
     var mimg = document.getElementById('mockupImage');
     if (mimg.clientWidth > mimg.naturalWidth) {
         $("#mockupImage").removeClass('mockupImageFullWidth');
+    }
+    else {
+        if (!($("#mockupImage").hasClass('mockupImageFullWidth'))) {
+            $("#mockupImage").addClass('mockupImageFullWidth');
+        }
     }
 }
 function GetMockupUrlFromClick(mouseX, mouseY) {
@@ -51,13 +57,45 @@ function GetMockupUrlFromClick(mouseX, mouseY) {
 }
 function OnAreaClick() {
     event.preventDefault();
-    var newImgUrl = GetImageUrlFromViewMockupUrl(this.href);
+    var targetUrl = this.href;
+    var newImgUrl = GetImageUrlFromViewMockupUrl(targetUrl);
+
+    var lcApiUrl = window.location.origin + '/api/LinkedControls?mockupUrl=' + encodeURIComponent(targetUrl);
+    var lcJson = $.get(lcApiUrl);
+
+    //$('#mockupImage').on('load', function () {
+        $.get(lcApiUrl, function (data, status) {
+            var mapInfo = JSON.parse(data);
+
+            // remove map element and re-add a new one
+            $("#controlmap").remove();
+            $("body").append('<map name="controlmap" id="controlmap"></map>');
+            var ctrlMap = $('#controlmap');
+
+            for (var i = 0; i < mapInfo.length; i++) {
+                var current = mapInfo[i];
+                var elementHtml = '<area class="linkedControl" shape="rect" coords="' + current.LocationX + ',' + current.LocationY + ',' + current.MaxLocationX + ',' + current.MaxLocationY +
+                    '" href="' + current.MockupUrl + '" alt="' + current.MockupUrl + '" />';
+                console.log('adding element: ' + elementHtml);
+                ctrlMap.append(elementHtml);
+            }
+
+            // rebind events
+            $("#mockupImage").removeClass('mockupImageFullWidth');
+            $("#mockupImage").addClass('mockupImageFullWidth');
+            CorrectImageStyleForWidth();
+            $('#controlmap').imageMapResize();
+
+            $("#controlmap area")[0].onclick = null;
+            $("#controlmap area").click(OnAreaClick);
+
+            history.pushState(null, null, targetUrl);
+        });
+    //});
+
     $('#mockupImage')[0].src = newImgUrl;
 }
 function GetImageUrlFromViewMockupUrl(vmUrl) {
-    // http://localhost:63108/ViewMockupPage?MockupPath=mockupname%5Cpublish.2017.09.12-pub-spec.bmpr.json&mockupName=publish-tab-publishing
-    // http://localhost:63108/mockups/mockupname/publish-tab-publishing.png
-    
     var mockupNameRegEx = /&mockupName=(.*)/g;
     var reResult = mockupNameRegEx.exec(vmUrl.replace(window.location.origin, ''));
 
@@ -70,7 +108,7 @@ function GetImageUrlFromViewMockupUrl(vmUrl) {
         folderResult != null &&
         folderResult.length >= 2) {
 
-        imgUrl = decodeURI(window.location.origin + '/mockups/' + folderResult[1] + '/' + reResult[1] + '.png');
+        imgUrl = window.location.origin + '/mockups/' + folderResult[1] + '/' + reResult[1] + '.png';
     }
     
     return imgUrl;

@@ -21,7 +21,7 @@ namespace MockupWeb.Website.Pages
             MockupRoot = Path.Combine(_webRoot, reldirpath);
         }
         public string GetLocalMockupFilepath(string relpath) {
-            return Path.Combine(_webRoot,"mockups", relpath);
+            return Path.Combine(MockupRoot, relpath);
         }
     }
 }
