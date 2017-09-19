@@ -59,9 +59,9 @@ function OnAreaClick() {
     event.preventDefault();
     var targetUrl = this.href;
     var newImgUrl = GetImageUrlFromViewMockupUrl(targetUrl);
-
+    console.log('handle onareaclick');
     var lcApiUrl = window.location.origin + '/api/LinkedControls?mockupUrl=' + encodeURIComponent(targetUrl);
-    var lcJson = $.get(lcApiUrl);
+    //var lcJson = $.get(lcApiUrl);
 
     //$('#mockupImage').on('load', function () {
         $.get(lcApiUrl, function (data, status) {

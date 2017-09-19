@@ -64,7 +64,7 @@ namespace MockupWeb.Website.Pages {
                 var foundlc = from ctrl in linkedControls
                               select new LinkedControl {
                                   LinkId = ctrl.LinkId,
-                                  MockupUrl = $"/ViewMockupPage?MockupPath={WebUtility.UrlEncode(mockupPath)}&mockupName={System.Net.WebUtility.UrlEncode(bmprfile.GetMockupNameFromId(ctrl.LinkId))}",
+                                  MockupUrl = $"/ViewMockupPage?MockupPath={System.Uri.EscapeUriString(mockupPath)}&mockupName={System.Uri.EscapeUriString(bmprfile.GetMockupNameFromId(ctrl.LinkId))}",
                                   LocationX = ctrl.LocationX,
                                   LocationY = ctrl.LocationY,
                                   MeasuredHeight = ctrl.MeasuredHeight,
