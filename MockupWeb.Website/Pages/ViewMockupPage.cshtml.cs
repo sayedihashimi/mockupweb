@@ -64,7 +64,7 @@ namespace MockupWeb.Website.Pages {
                 var foundlc = from ctrl in linkedControls
                               select new LinkedControl {
                                   LinkId = ctrl.LinkId,
-                                  MockupUrl = $"/ViewMockupPage?MockupPath={System.Uri.EscapeUriString(mockupPath)}&mockupName={System.Uri.EscapeUriString(bmprfile.GetMockupNameFromId(ctrl.LinkId))}",
+                                  MockupUrl = $"/ViewMockupPage?MockupPath={UriEscape(mockupPath,"brokenpath")}&mockupName={UriEscape(bmprfile.GetMockupNameFromId(ctrl.LinkId),"brokenname")}",
                                   LocationX = ctrl.LocationX,
                                   LocationY = ctrl.LocationY,
                                   MeasuredHeight = ctrl.MeasuredHeight,
@@ -74,10 +74,19 @@ namespace MockupWeb.Website.Pages {
                                   MaxLocationX = GetMaxX(ctrl.LocationX, ctrl.Width, ctrl.MeasuredWidth),
                                   MaxLocationY = GetMaxY(ctrl.LocationY, ctrl.Height, ctrl.MeasuredHeight)
                               };
-
-                LinkedControlsJson = JsonConvert.SerializeObject(foundlc);
-                LinkedControls = foundlc.ToList();
+                if (foundlc != null && foundlc.Count() > 0) {
+                    LinkedControlsJson = JsonConvert.SerializeObject(foundlc);
+                    LinkedControls = foundlc.ToList();
+                }
                 // /ViewMockupPage?MockupPath=@mockupPathUrlEncoded&mockupName=@System.Net.WebUtility.UrlEncode(mpage.name)
+            }
+        }
+        public string UriEscape(string str, string defaultValue) {
+            if (!string.IsNullOrWhiteSpace(str)) {
+                return System.Uri.EscapeUriString(str);
+            }
+            else {
+                return defaultValue;
             }
         }
         private int GetMaxX(int locationX, int width, int measuredWidth) {

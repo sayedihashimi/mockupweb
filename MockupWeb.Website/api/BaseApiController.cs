@@ -22,5 +22,13 @@ namespace MockupWeb.Website.api {
                 MockupRoot = Path.Combine(_webRoot, reldirpath);
             }
         }
+        public string UriEscape(string str, string defaultValue) {
+            if (!string.IsNullOrWhiteSpace(str)) {
+                return System.Uri.EscapeUriString(str);
+            }
+            else {
+                return defaultValue;
+            }
+        }
     }
 }

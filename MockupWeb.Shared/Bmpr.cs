@@ -25,6 +25,10 @@ namespace MockupWeb.Shared
         }
 
         public string GetMockupNameFromId(string id) {
+            if (string.IsNullOrWhiteSpace(id)) {
+                return null;
+            }
+
             var foundMockup = (from resx in Resources
                        where string.Compare(id, resx.ID, true) == 0
                        select resx).FirstOrDefault();

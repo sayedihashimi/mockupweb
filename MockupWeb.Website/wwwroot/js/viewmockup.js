@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
     var currentMousePos = { x: -1, y: -1 };
     $(document).mousemove(function (event) {
         currentMousePos.x = event.pageX;
@@ -11,16 +10,12 @@
     CorrectImageStyleForWidth();
     $('map').imageMapResize();
 
-    $("#controlmap area")[0].onclick = null;
-    $("#controlmap area").click(OnAreaClick);
-
-    $("#mockupImage").click(function () {
-        console.log('mouse:[x:' + currentMousePos.x + ',y:' + currentMousePos.y + ']');
-        var mockupUrl = GetMockupUrlFromClick(currentMousePos.x, currentMousePos.y);
-        if (mockupUrl != null) {
-            window.location.href = mockupUrl;
-        }
-    });
+    // disabling for now may revisit later
+    var hijackClicks = false;
+    if (hijackClicks) {
+        $("#controlmap area")[0].onclick = null;
+        $("#controlmap area").click(OnAreaClick);
+    }
 });
 var _linkedControls = Array();
 function SetLinkedControls(linkedControls) {
@@ -61,37 +56,34 @@ function OnAreaClick() {
     var newImgUrl = GetImageUrlFromViewMockupUrl(targetUrl);
     console.log('handle onareaclick');
     var lcApiUrl = window.location.origin + '/api/LinkedControls?mockupUrl=' + encodeURIComponent(targetUrl);
-    //var lcJson = $.get(lcApiUrl);
 
-    //$('#mockupImage').on('load', function () {
-        $.get(lcApiUrl, function (data, status) {
-            var mapInfo = JSON.parse(data);
+    $.get(lcApiUrl, function (data, status) {
+        var mapInfo = JSON.parse(data);
 
-            // remove map element and re-add a new one
-            $("#controlmap").remove();
-            $("body").append('<map name="controlmap" id="controlmap"></map>');
-            var ctrlMap = $('#controlmap');
+        // remove map element and re-add a new one
+        $("#controlmap").remove();
+        $("body").append('<map name="controlmap" id="controlmap"></map>');
+        var ctrlMap = $('#controlmap');
 
-            for (var i = 0; i < mapInfo.length; i++) {
-                var current = mapInfo[i];
-                var elementHtml = '<area class="linkedControl" shape="rect" coords="' + current.LocationX + ',' + current.LocationY + ',' + current.MaxLocationX + ',' + current.MaxLocationY +
-                    '" href="' + current.MockupUrl + '" alt="' + current.MockupUrl + '" />';
-                console.log('adding element: ' + elementHtml);
-                ctrlMap.append(elementHtml);
-            }
+        for (var i = 0; i < mapInfo.length; i++) {
+            var current = mapInfo[i];
+            var elementHtml = '<area class="linkedControl" shape="rect" coords="' + current.LocationX + ',' + current.LocationY + ',' + current.MaxLocationX + ',' + current.MaxLocationY +
+                '" href="' + current.MockupUrl + '" alt="' + current.MockupUrl + '" />';
+            console.log('adding element: ' + elementHtml);
+            ctrlMap.append(elementHtml);
+        }
 
-            // rebind events
-            $("#mockupImage").removeClass('mockupImageFullWidth');
-            $("#mockupImage").addClass('mockupImageFullWidth');
-            CorrectImageStyleForWidth();
-            $('#controlmap').imageMapResize();
+        // rebind events
+        $("#mockupImage").removeClass('mockupImageFullWidth');
+        $("#mockupImage").addClass('mockupImageFullWidth');
+        CorrectImageStyleForWidth();
+        $('#controlmap').imageMapResize();
 
-            $("#controlmap area")[0].onclick = null;
-            $("#controlmap area").click(OnAreaClick);
+        $("#controlmap area")[0].onclick = null;
+        $("#controlmap area").click(OnAreaClick);
 
-            history.pushState(null, null, targetUrl);
-        });
-    //});
+        history.pushState(null, null, targetUrl);
+    });
 
     $('#mockupImage')[0].src = newImgUrl;
 }

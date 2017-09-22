@@ -30,7 +30,9 @@ namespace MockupWeb.Website.Pages
             var bmprfiles = Directory.GetFiles(MockupRoot, "*.bmpr.json", SearchOption.AllDirectories);
             foreach(var file in bmprfiles) {
                 string relpath = GetRelativePath(file, MockupRoot);
-                Mockups.Add((relpath: relpath, relpathurl: System.Uri.EscapeUriString(relpath)));
+                if (!string.IsNullOrWhiteSpace(relpath)) {
+                    Mockups.Add((relpath: relpath, relpathurl: System.Uri.EscapeUriString(relpath)));
+                }
             }
             
         }

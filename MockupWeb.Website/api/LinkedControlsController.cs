@@ -57,7 +57,7 @@ namespace MockupWeb.Website.api {
                     var foundlc = from ctrl in linkedControls
                                   select new LinkedControl {
                                       LinkId = ctrl.LinkId,
-                                      MockupUrl = $"/ViewMockupPage?MockupPath={System.Uri.EscapeUriString(mockupPath)}&mockupName={System.Uri.EscapeUriString(bmprfile.GetMockupNameFromId(ctrl.LinkId))}",
+                                      MockupUrl = $"/ViewMockupPage?MockupPath={UriEscape(mockupPath,"brokenlink")}&mockupName={UriEscape(bmprfile.GetMockupNameFromId(ctrl.LinkId),"brokenlink")}",
                                       LocationX = ctrl.LocationX,
                                       LocationY = ctrl.LocationY,
                                       MeasuredHeight = ctrl.MeasuredHeight,
@@ -78,6 +78,7 @@ namespace MockupWeb.Website.api {
 
             return null;
         }
+
         private int GetMaxX(int locationX, int width, int measuredWidth) {
             int widthToUse = width;
             if (widthToUse <= 0) {
