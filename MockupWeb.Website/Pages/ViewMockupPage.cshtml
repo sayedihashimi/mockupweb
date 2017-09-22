@@ -1,7 +1,7 @@
 ﻿@page "{MockupPath?}"
 @model ViewMockupPageModel
 
-<img id="mockupImage" class="mockupImageFullWidth" src="@Model.MockupImagePath" alt="@Model.MockupImagePath" usemap="#controlmap" />
+<img id="mockupImage" src="@Model.MockupImagePath" alt="@Model.MockupImagePath" usemap="#controlmap" />
 <map name="controlmap" id="controlmap">
     @foreach (var lc in Model.LinkedControls) {
         <area class="linkedControl" shape="rect" coords="@lc.LocationX,@lc.LocationY,@lc.MaxLocationX,@lc.MaxLocationY" href="@lc.MockupUrl" alt="@lc.MockupUrl" />
@@ -12,7 +12,12 @@
 @section scripts{
     <script src="~/js/imageMapResizer.min.js" asp-append-version="true"></script>
     <script src="~/js/viewmockup.js" asp-append-version="true"></script>
-    <script>
+    @if (@Model.ScriptsToInclude.Count>0) {
+        @foreach (var script in Model.ScriptsToInclude) {
+            <script src="@script" asp-append-version="true"></script>
+        }
+    }
+    <script>        
         //SetLinkedControls(JSON.parse($('#linkedControls').attr('data-linkedcontrols')));
     </script>
     <script>

@@ -24,8 +24,10 @@ function SetLinkedControls(linkedControls) {
 function CorrectImageStyleForWidth() {
     // if the image is larger than it's rendered make set width to not use 100%
     var mimg = document.getElementById('mockupImage');
-    if (mimg.clientWidth > mimg.naturalWidth) {
-        $("#mockupImage").removeClass('mockupImageFullWidth');
+    if (mimg.clientWidth >= mimg.naturalWidth) {
+        if (!($("#mockupImage").hasClass('mockupImageFullWidth'))) {
+            $("#mockupImage").removeClass('mockupImageFullWidth');
+        }
     }
     else {
         if (!($("#mockupImage").hasClass('mockupImageFullWidth'))) {
