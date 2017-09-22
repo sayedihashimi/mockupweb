@@ -9,6 +9,14 @@
 </map>
 
 <span id="linkedControls" data-linkedcontrols="@(Model.LinkedControlsJson)" />
+
+@section styles{ 
+    @if (Model.CssToInclude.Count > 0) {
+        @foreach (var script in Model.CssToInclude) {
+            <link rel="stylesheet" href="@script" />
+        }
+    }
+}
 @section scripts{
     <script src="~/js/imageMapResizer.min.js" asp-append-version="true"></script>
     <script src="~/js/viewmockup.js" asp-append-version="true"></script>

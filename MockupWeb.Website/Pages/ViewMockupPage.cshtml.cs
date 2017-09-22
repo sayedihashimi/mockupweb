@@ -20,6 +20,7 @@ namespace MockupWeb.Website.Pages {
         public string MockupImagePath { get; set; }
         public List<string> ImageUrls { get; set; } = new List<string>();
         public List<string> ScriptsToInclude { get; set; } = new List<string>();
+        public List<string> CssToInclude { get; set; } = new List<string>();
         public string ImageUrlsString {
             get {
                 string res = string.Empty;
@@ -39,6 +40,18 @@ namespace MockupWeb.Website.Pages {
             string localpath = this.GetLocalMockupFilepath(mockupImagePath);
 
             string jsrelpath = $"{mockupImagePath}.js";
+            if (System.IO.File.Exists(GetLocalMockupFilepath(jsrelpath))) {
+                scripts.Add($"/mockups/{jsrelpath.Replace("\\", "/")}");
+            }
+
+            return scripts;
+        }
+        private List<string> GetCssToInclude(string mockupImagePath) {
+            List<string> scripts = new List<string>();
+            // see if there is a .js file with same name next to the image
+            string localpath = this.GetLocalMockupFilepath(mockupImagePath);
+
+            string jsrelpath = $"{mockupImagePath}.css";
             if (System.IO.File.Exists(GetLocalMockupFilepath(jsrelpath))) {
                 scripts.Add($"/mockups/{jsrelpath.Replace("\\", "/")}");
             }
@@ -72,6 +85,7 @@ namespace MockupWeb.Website.Pages {
 
             MockupImagePath = $"/mockups/{relfolderpath}/{mockupName}.png";
             ScriptsToInclude = GetScriptsToInclude($@"{relfolderpath}\{mockupName}.png");
+            CssToInclude = GetCssToInclude($@"{relfolderpath}\{mockupName}.png");
 
             if (resx != null) {
                 var linkedControls = resx.Mockup.GetControlsWithLinks();

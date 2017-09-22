@@ -1,4 +1,5 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
     var currentMousePos = { x: -1, y: -1 };
     $(document).mousemove(function (event) {
         currentMousePos.x = event.pageX;
@@ -10,6 +11,9 @@
     CorrectImageStyleForWidth();
     $('map').imageMapResize();
 
+    $("#mockupImage").click(function () {
+        console.log('mouse:[x:' + currentMousePos.x + ',y:' + currentMousePos.y + ']');
+    });
     // disabling for now may revisit later
     var hijackClicks = false;
     if (hijackClicks) {
@@ -107,3 +111,12 @@ function GetImageUrlFromViewMockupUrl(vmUrl) {
     
     return imgUrl;
 }
+function GetMockupFolderpathFromUrl(srcurl) {
+    var mockupFolderPattern = /MockupPath=(.*)%5C/g;
+    var folderResult = mockupFolderPattern.exec(srcurl);
+    if (folderResult != null && folderResult.length >= 2) {
+        return folderResult[1];
+    }
+    return null;
+}
+var currentMockupRoot = GetMockupFolderpathFromUrl(window.location.href);
