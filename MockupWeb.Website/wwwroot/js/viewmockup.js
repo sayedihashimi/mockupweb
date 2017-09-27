@@ -14,12 +14,29 @@ $(document).ready(function () {
     $("#mockupImage").click(function () {
         console.log('mouse:[x:' + currentMousePos.x + ',y:' + currentMousePos.y + ']');
     });
+    // on right click trigger left click
+    $("area").mousedown(function (e) {
+        // from https://stackoverflow.com/questions/2405771/is-right-click-a-javascript-event
+        var isRightMB;
+        e = e || window.event;
+
+        if ("which" in e)  // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+            isRightMB = e.which == 3;
+        else if ("button" in e)  // IE, Opera 
+            isRightMB = e.button == 2;
+
+        if (isRightMB) {
+            e.preventDefault();
+            this.click();
+        }
+    });
     // disabling for now may revisit later
     var hijackClicks = false;
     if (hijackClicks) {
         //$("#controlmap area")[0].onclick = null;
         //$("#controlmap area").click(OnAreaClick);
     }
+
 });
 var _linkedControls = Array();
 function SetLinkedControls(linkedControls) {

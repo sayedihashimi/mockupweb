@@ -30,11 +30,15 @@ namespace MockupWeb.Website.Pages
             var bmprfiles = Directory.GetFiles(MockupRoot, "*.bmpr.json", SearchOption.AllDirectories);
             foreach(var file in bmprfiles) {
                 string relpath = GetRelativePath(file, MockupRoot);
-                if (!string.IsNullOrWhiteSpace(relpath)) {
+                if (!string.IsNullOrWhiteSpace(relpath) && ShouldFileBeShownInIndex(relpath)) {
                     Mockups.Add((relpath: relpath, relpathurl: System.Uri.EscapeUriString(relpath)));
                 }
             }
             
+        }
+        
+        private bool ShouldFileBeShownInIndex(string bmprfilepath) {
+            return bmprfilepath != null ? !(bmprfilepath.StartsWith("_", StringComparison.OrdinalIgnoreCase)) : false;
         }
 
         private string GetRelativePath(string filespec, string folder) {
