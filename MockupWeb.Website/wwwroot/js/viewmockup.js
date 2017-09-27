@@ -17,8 +17,8 @@ $(document).ready(function () {
     // disabling for now may revisit later
     var hijackClicks = false;
     if (hijackClicks) {
-        $("#controlmap area")[0].onclick = null;
-        $("#controlmap area").click(OnAreaClick);
+        //$("#controlmap area")[0].onclick = null;
+        //$("#controlmap area").click(OnAreaClick);
     }
 });
 var _linkedControls = Array();
@@ -28,10 +28,17 @@ function SetLinkedControls(linkedControls) {
 function CorrectImageStyleForWidth() {
     // if the image is larger than it's rendered make set width to not use 100%
     var mimg = document.getElementById('mockupImage');
-    if (mimg.clientWidth >= mimg.naturalWidth) {
+    if (mimg.clientWidth == mimg.naturalWidth) {
+        $("mockupImage").removeClass("mockupImageNaturalWidth");
+        $("#mockupImage").addClass('mockupImageFullWidth');
+    }
+    else if (mimg.clientWidth >= mimg.naturalWidth) {
         if (!($("#mockupImage").hasClass('mockupImageFullWidth'))) {
             $("#mockupImage").removeClass('mockupImageFullWidth');
         }
+    }
+    else if (mimg.clientWidth < mimg.naturalWidth) {
+        $("mockupImage").removeClass("mockupImageNaturalWidth");
     }
     else {
         if (!($("#mockupImage").hasClass('mockupImageFullWidth'))) {
@@ -119,4 +126,25 @@ function GetMockupFolderpathFromUrl(srcurl) {
     }
     return null;
 }
-var currentMockupRoot = GetMockupFolderpathFromUrl(window.location.href);
+function GetMockupNameFromUrl(srcurl) {
+    var mockupNameRegEx = /&mockupName=(.*)/g;
+    var nameResult = mockupNameRegEx.exec(srcurl);
+    if (nameResult != null && nameResult.length >= 2) {
+        return nameResult[1];
+    }
+    return null;
+}
+function GetMockupPathFromUrl(srcurl) {
+    var mockupPathPattern = /MockupPath=(.*)&mockupName=/g;
+    var pathResult = mockupPathPattern.exec(srcurl);
+    if (pathResult != null && pathResult.length >= 2) {
+        return pathResult[1];
+    }
+    return null;
+}
+
+window.mockupweb = {
+    'currentMockupFolder': GetMockupFolderpathFromUrl(window.location.href),
+    'currentMockupName': GetMockupNameFromUrl(window.location.href),
+    'currentMockupPath': GetMockupPathFromUrl(window.location.href)
+}

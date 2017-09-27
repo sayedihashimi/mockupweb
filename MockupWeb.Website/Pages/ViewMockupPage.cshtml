@@ -19,10 +19,10 @@
 }
 @section scripts{
     <script src="~/js/imageMapResizer.min.js" asp-append-version="true"></script>
-    <script src="~/js/viewmockup.js" asp-append-version="true"></script>
+    <script src="~/js/viewmockup.js"></script>
     @if (@Model.ScriptsToInclude.Count>0) {
         @foreach (var script in Model.ScriptsToInclude) {
-            <script src="@script" asp-append-version="true"></script>
+            <script src="@script"></script>
         }
     }
     <script>        
