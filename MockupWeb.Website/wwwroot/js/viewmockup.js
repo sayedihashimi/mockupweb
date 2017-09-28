@@ -55,23 +55,39 @@ function SetLinkedControls(linkedControls) {
 function CorrectImageStyleForWidth() {
     // if the image is larger than it's rendered make set width to not use 100%
     var mimg = document.getElementById('mockupImage');
-    if (mimg.clientWidth == mimg.naturalWidth) {
-        $("mockupImage").removeClass("mockupImageNaturalWidth");
+
+    var imgWidth = mimg.naturalWidth;
+    var widthAvailable = $(window).width();
+
+    if (imgWidth > widthAvailable) {
+        $("#mockupImage").attr('class', '');
         $("#mockupImage").addClass('mockupImageFullWidth');
     }
-    else if (mimg.clientWidth >= mimg.naturalWidth) {
-        if (!($("#mockupImage").hasClass('mockupImageFullWidth'))) {
-            $("#mockupImage").removeClass('mockupImageFullWidth');
-        }
+    else{
+        $("#mockupImage").attr('class', '');
     }
-    else if (mimg.clientWidth < mimg.naturalWidth) {
-        $("mockupImage").removeClass("mockupImageNaturalWidth");
-    }
-    else {
-        if (!($("#mockupImage").hasClass('mockupImageFullWidth'))) {
-            $("#mockupImage").addClass('mockupImageFullWidth');
-        }
-    }
+
+    //if (mimg.clientWidth == mimg.naturalWidth) {
+    //    return;
+    //    // $("#mockupImage").removeClass("mockupImageNaturalWidth");
+    //    $("#mockupImage").attr('class', '');
+    //    $("#mockupImage").addClass('mockupImageFullWidth');
+    //}
+    //else if (mimg.clientWidth >= mimg.naturalWidth) {
+    //    //$("#mockupImage").removeClass('mockupImageFullWidth');
+    //    $("#mockupImage").attr('class', '');
+    //    //$("#mockupImage").addClass('mockupImageNaturalWidth');
+    //}
+    //else if (mimg.clientWidth < mimg.naturalWidth) {
+    //    //$("#mockupImage").removeClass("mockupImageNaturalWidth");
+    //    $("#mockupImage").attr('class', '');
+    //    $("#mockupImage").addClass('mockupImageFullWidth');
+    //}
+    //else {
+    //    //$("#mockupImage").removeClass("mockupImageNaturalWidth");
+    //    $("#mockupImage").attr('class', '');
+    //    $("#mockupImage").addClass('mockupImageFullWidth');
+    //}
 }
 function GetMockupUrlFromClick(mouseX, mouseY) {
     // see if the point is contained in any linked control
