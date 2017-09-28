@@ -1,4 +1,8 @@
 ﻿
+
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+
 $(document).ready(function () {
     var currentMousePos = { x: -1, y: -1 };
     $(document).mousemove(function (event) {
@@ -14,6 +18,11 @@ $(document).ready(function () {
     $("#mockupImage").click(function () {
         console.log('mouse:[x:' + currentMousePos.x + ',y:' + currentMousePos.y + ']');
     });
+    $("area").oncontextmenu = function (e) {
+        e.preventDefault();
+        this.click();
+        return false;     // cancel default menu
+    }
     // on right click trigger left click
     $("area").mousedown(function (e) {
         // from https://stackoverflow.com/questions/2405771/is-right-click-a-javascript-event
@@ -28,6 +37,7 @@ $(document).ready(function () {
         if (isRightMB) {
             e.preventDefault();
             this.click();
+            return false;
         }
     });
     // disabling for now may revisit later
