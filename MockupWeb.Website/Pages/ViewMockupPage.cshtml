@@ -11,6 +11,7 @@
 <span id="linkedControls" data-linkedcontrols="@(Model.LinkedControlsJson)" />
 
 @section styles{ 
+    <link rel="stylesheet" href="/css/viewmockup.css" />
     @if (Model.CssToInclude.Count > 0) {
         @foreach (var script in Model.CssToInclude) {
             <link rel="stylesheet" href="@script" />
