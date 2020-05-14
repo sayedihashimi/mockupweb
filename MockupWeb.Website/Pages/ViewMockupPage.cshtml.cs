@@ -118,8 +118,8 @@ namespace MockupWeb.Website.Pages {
                 return defaultValue;
             }
         }
-        private int GetMaxX(int locationX, int width, int measuredWidth) {
-            int widthToUse = width;
+        private float GetMaxX(float locationX, float width, float measuredWidth) {
+            float widthToUse = width;
             if (widthToUse <= 0) {
                 widthToUse = measuredWidth;
             }
@@ -129,8 +129,8 @@ namespace MockupWeb.Website.Pages {
 
             return locationX + widthToUse;
         }
-        private int GetMaxY(int locationY, int height, int measuredHeight) {
-            int heightToUse = height;
+        private float GetMaxY(float locationY, float height, float measuredHeight) {
+            float heightToUse = height;
             if (heightToUse <= 0) {
                 heightToUse = measuredHeight;
             }
@@ -144,13 +144,13 @@ namespace MockupWeb.Website.Pages {
     public class LinkedControl {
         public string LinkId { get; set; }
         public string MockupUrl { get; set; }
-        public int LocationX { get; set; }
-        public int LocationY { get; set; }
-        public int MaxLocationX { get; set; }
-        public int MaxLocationY { get; set; }
-        public int MeasuredHeight { get; set; }
-        public int MeasuredWidth { get; set; }
-        public int Height { get; set; }
-        public int Width { get; set; }
+        public float LocationX { get; set; }
+        public float LocationY { get; set; }
+        public float MaxLocationX { get; set; }
+        public float MaxLocationY { get; set; }
+        public float MeasuredHeight { get; set; }
+        public float MeasuredWidth { get; set; }
+        public float Height { get; set; }
+        public float Width { get; set; }
     }
 }

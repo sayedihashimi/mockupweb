@@ -32,10 +32,10 @@ namespace MockupWeb.Shared
             if (string.IsNullOrWhiteSpace(Data)) { return; }
             var dataObject = JObject.Parse(Data);
             var mc = new Mockup();
-            mc.MeasuredHeight = dataObject["mockup"]["measuredH"].Value<int>();
-            mc.MeasuredWidth = dataObject["mockup"]["measuredW"].Value<int>();
-            mc.MockupHeight = dataObject["mockup"]["mockupH"].Value<int>();
-            mc.MockupWidth = dataObject["mockup"]["mockupW"].Value<int>();
+            mc.MeasuredHeight = dataObject["mockup"]["measuredH"].Value<float>();
+            mc.MeasuredWidth = dataObject["mockup"]["measuredW"].Value<float>();
+            mc.MockupHeight = dataObject["mockup"]["mockupH"].Value<float>();
+            mc.MockupWidth = dataObject["mockup"]["mockupW"].Value<float>();
 
             if (dataObject["mockup"]["controls"] != null && dataObject["mockup"]["controls"]["control"] != null)
             {
@@ -46,13 +46,13 @@ namespace MockupWeb.Shared
                     var control = new Control();
                     control.ID = ctrl["ID"].Value<int>();
                     control.CtrlType = ctrl["typeID"] != null ? ctrl["typeID"].Value<string>() : null;
-                    control.Height = ctrl["h"] != null ? ctrl["h"].Value<int>() : -1;
-                    control.Width = ctrl["w"] != null ? ctrl["w"].Value<int>() : -1;
-                    control.MeasuredHeight = ctrl["measuredH"] != null ? ctrl["measuredH"].Value<int>() : -1;
-                    control.MeasuredWidth = ctrl["measuredW"] != null ? ctrl["measuredW"].Value<int>() : -1;
-                    control.LocationX = ctrl["x"] != null ? ctrl["x"].Value<int>() : -1;
-                    control.LocationY = ctrl["y"] != null ? ctrl["y"].Value<int>() : -1;
-                    control.Zorder = ctrl["zOrder"] != null ? ctrl["zOrder"].Value<int>() : -1;
+                    control.Height = ctrl["h"] != null ? ctrl["h"].Value<float>() : -1;
+                    control.Width = ctrl["w"] != null ? ctrl["w"].Value<float>() : -1;
+                    control.MeasuredHeight = ctrl["measuredH"] != null ? ctrl["measuredH"].Value<float>() : -1;
+                    control.MeasuredWidth = ctrl["measuredW"] != null ? ctrl["measuredW"].Value<float>() : -1;
+                    control.LocationX = ctrl["x"] != null ? ctrl["x"].Value<float>() : -1;
+                    control.LocationY = ctrl["y"] != null ? ctrl["y"].Value<float>() : -1;
+                    control.Zorder = ctrl["zOrder"] != null ? ctrl["zOrder"].Value<float>() : -1;
 
                     // see if there it has a link
                     if (ctrl["properties"] != null

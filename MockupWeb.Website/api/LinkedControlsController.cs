@@ -79,8 +79,8 @@ namespace MockupWeb.Website.api {
             return null;
         }
 
-        private int GetMaxX(int locationX, int width, int measuredWidth) {
-            int widthToUse = width;
+        private float GetMaxX(float locationX, float width, float measuredWidth) {
+            float widthToUse = width;
             if (widthToUse <= 0) {
                 widthToUse = measuredWidth;
             }
@@ -90,8 +90,8 @@ namespace MockupWeb.Website.api {
 
             return locationX + widthToUse;
         }
-        private int GetMaxY(int locationY, int height, int measuredHeight) {
-            int heightToUse = height;
+        private float GetMaxY(float locationY, float height, float measuredHeight) {
+            float heightToUse = height;
             if (heightToUse <= 0) {
                 heightToUse = measuredHeight;
             }

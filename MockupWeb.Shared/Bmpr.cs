@@ -58,10 +58,10 @@ namespace MockupWeb.Shared
     }
 
     public class Mockup {
-        public int MeasuredHeight { get; set; } = -1;
-        public int MeasuredWidth { get; set; } = -1;
-        public int MockupHeight { get; set; } = -1;
-        public int MockupWidth { get; set; } = -1;
+        public float MeasuredHeight { get; set; } = -1;
+        public float MeasuredWidth { get; set; } = -1;
+        public float MockupHeight { get; set; } = -1;
+        public float MockupWidth { get; set; } = -1;
         public List<Control> Controls{get;set;} = new List<Control>();
 
         public List<Control> GetControlsWithLinks() {
@@ -74,13 +74,13 @@ namespace MockupWeb.Shared
     public class Control {
         public int ID { get; set; }
         public string CtrlType { get; set; }
-        public int MeasuredHeight { get; set; }
-        public int MeasuredWidth { get; set; }
-        public int Height { get; set; }
-        public int Width { get; set; }
+        public float MeasuredHeight { get; set; }
+        public float MeasuredWidth { get; set; }
+        public float Height { get; set; }
+        public float Width { get; set; }
         public string LinkId { get; set; }
-        public int LocationX { get; set; }
-        public int LocationY { get; set; }
-        public int Zorder { get; set; }
+        public float LocationX { get; set; }
+        public float LocationY { get; set; }
+        public float Zorder { get; set; }
     }
 }
