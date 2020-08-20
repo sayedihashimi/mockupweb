@@ -15,4 +15,9 @@
   <ItemGroup>
     <ProjectReference Include="..\MockupWeb.Shared\MockupWeb.Shared.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="wwwroot\mockups\placholder.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
